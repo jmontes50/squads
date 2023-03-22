@@ -7,7 +7,7 @@ const textToArrayStudents = (text) => {
 };
 
 const findRepeatedStudent = (students) => {
-  //Esta invertido porque se asume que de encontrar una estudiante repetida su ultimo registro es el correcto
+  //Esta invertido porque se asume que de encontrar una estudiante repetida su último registro es el correcto
   const reversedStudents = students.reverse();
 
   const uniqueStudents = reversedStudents.filter((item, index) => {
@@ -34,48 +34,41 @@ const buildGroups = (students) => {
   return groups;
 };
 
+const findLeastPopulatedRoom = (rooms) => {
+  const lowestIndex = rooms.reduce((lowest, current, index) => {
+    if (current.students.length < rooms[lowest].students.length) {
+      return index;
+    } else {
+      return lowest;
+    }
+  }, 0);
+  return lowestIndex;
+};
+
 const buildRooms = (groups) => {
-  // Número de rooms que quieres crear
-  const numRooms = 3;
+  const numRooms = 4;
 
-  // Obtener el número total de estudiantes
-  const numStudents = groups.reduce(
-    (acc, group) => acc + group.students.length,
-    0
-  );
-
-  // Calcular el número promedio de estudiantes por room
-  const avgStudentsPerRoom = Math.floor(numStudents / numRooms);
-
-  // Ordenar los grupos por cantidad de estudiantes, de menor a mayor
   const sortedGroups = [...groups].sort(
     (a, b) => a.students.length - b.students.length
   );
 
-  // Arreglo de rooms
   const rooms = [];
 
-  // Iterar por cada grupo y asignarlo al room con menos estudiantes
-  for (const group of sortedGroups) {
-    // Encontrar el room con menos estudiantes
-    const leastPopulatedRoom = rooms.reduce(
-      (acc, room) => {
-        if (room.students.length < acc.students.length) {
-          return room;
-        }
-        return acc;
-      },
-      { students: [] }
-    );
-
-    // Si el room menos poblado tiene menos estudiantes que el promedio, asignar el grupo a ese room
-    if (leastPopulatedRoom.students.length < avgStudentsPerRoom) {
-      leastPopulatedRoom.students.push(...group.students);
-    } else {
-      // Si todos los rooms tienen igual o más estudiantes que el promedio, asignar el grupo al room menos poblado
-      leastPopulatedRoom.students.push(...group.students);
-    }
+  for (let i = 1; i <= numRooms; i++) {
+    let room = { room: `Demo ${i}`, students: [] };
+    rooms.push(room);
   }
+
+  for (let i = 0; i < sortedGroups.length; i++) {
+    let index = findLeastPopulatedRoom(rooms);
+    rooms[index].students = [
+      ...rooms[index].students,
+      ...sortedGroups[i].students,
+    ];
+  }
+
+  console.log({ rooms });
+
   return rooms;
 };
 

@@ -13,10 +13,7 @@ export default function App() {
     const students = textToArrayStudents(text);
     const studentsCleaned = findRepeatedStudent(students);
     const groups = buildGroups(studentsCleaned);
-    // console.log(groups);
-    console.log(Object.values(groups));
     const rooms = buildRooms(Object.values(groups));
-    console.log(rooms);
   };
 
   return (
