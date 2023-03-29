@@ -31,7 +31,7 @@ const buildGroups = (students) => {
     return acc;
   }, {});
 
-  return groups;
+  return Object.values(groups);
 };
 
 const findLeastPopulatedRoom = (rooms) => {
@@ -45,9 +45,7 @@ const findLeastPopulatedRoom = (rooms) => {
   return lowestIndex;
 };
 
-const buildRooms = (groups) => {
-  const numRooms = 4;
-
+const buildRooms = (groups, numRooms) => {
   const sortedGroups = [...groups].sort(
     (a, b) => a.students.length - b.students.length
   );
@@ -66,8 +64,6 @@ const buildRooms = (groups) => {
       ...sortedGroups[i].students,
     ];
   }
-
-  console.log({ rooms });
 
   return rooms;
 };
